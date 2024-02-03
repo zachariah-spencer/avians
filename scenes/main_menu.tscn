@@ -1,0 +1,95 @@
+[gd_scene load_steps=8 format=3 uid="uid://bru7k1glgvc2o"]
+
+[ext_resource type="Script" path="res://scenes/LogoAndMenuFade.cs" id="1_7xm7r"]
+[ext_resource type="Texture2D" uid="uid://bcu8hlxcuxjha" path="res://aviansLogo.png" id="2_u4wnw"]
+
+[sub_resource type="Animation" id="Animation_8cfh8"]
+resource_name = "logoFade"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasGroup/AviansLogo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 3.5, 5.5, 8.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jg63w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasGroup/AviansLogo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasGroup/Background:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_dx5pl"]
+resource_name = "bgFadeFromBlack"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasGroup/Background:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k46bj"]
+_data = {
+"RESET": SubResource("Animation_jg63w"),
+"bgFadeFromBlack": SubResource("Animation_dx5pl"),
+"logoFade": SubResource("Animation_8cfh8")
+}
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_sjsj4"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k46bj")
+}
+script = ExtResource("1_7xm7r")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+
+[node name="Background" type="Sprite2D" parent="CanvasGroup"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(584, 325)
+scale = Vector2(1200, 670)
+texture = SubResource("PlaceholderTexture2D_sjsj4")
+
+[node name="AviansLogo" type="Sprite2D" parent="CanvasGroup"]
+position = Vector2(575, 315)
+scale = Vector2(0.544118, 0.545839)
+texture = ExtResource("2_u4wnw")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="OnAnimationFinish"]
